@@ -1,0 +1,14 @@
+{
+  "name": "nodehelloexpress",
+  "version": "1.0.0",
+  "description": "Node with express hello world example.",
+  "main": "hello-world.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
