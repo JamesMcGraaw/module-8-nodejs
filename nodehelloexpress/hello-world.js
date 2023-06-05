@@ -51,6 +51,23 @@ app.get('/products/:prod', (req, res) => {
     res.send(`You asked for a ${req.params.prod}, with colour ${colour} and maximum price of £${maximumPrice} made by ${manufacturer}`);
 });
 
+// Body parsing
+
+// If the Content-Type of the request is from a form, parse it and put it in the property req.body
+app.use(express.urlencoded({extended: true}));
+// Put this at the top of the file ^^
+app.post('/formtest', (req, res) => {
+    res.send(`Thanks for subscribing ${req.body.name}. An email to ${req.body.email} is on its way!`);
+});
+
+// If the Content-Type of the request is JSON, parse it and put it in the
+// property req.body
+app.use(express.json());
+// Put this at the top of the file ^^
+
+app.post('/receivejson', (req, res) => {
+    res.send(`Your description was: ${req.body.description}`);
+});
 
 app.listen(port, () => {
     console.log(`App started and listening on port ${port}`);

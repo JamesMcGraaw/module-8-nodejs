@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Node Routing from Form Example</title>
+
+  <meta name="description" content="An example of handling a form with Node routing">
+  <meta name="author" content="iO Academy">
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="images/favicon.png" sizes="192x192">
+  <link rel="shortcut icon" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <script defer src="js/index.js"></script>
+</head>
+
+<body>
+
+<h1>Node and Form</h1>
+
+<!-- To access this page in a browser: http://localhost:1234/m8-nodejs/nodehelloexpress/form.html -->
+<form action="http://localhost:3000/formtest" method="post">
+  <div>
+    <label for="name">Enter your name: </label>
+    <input type="text" name="name" id="name" required>
+  </div>
+  <div>
+    <label for="email">Enter your email: </label>
+    <input type="email" name="email" id="email" required>
+  </div>
+  <div>
+    <input type="submit" value="Subscribe!">
+  </div>
+</form>
+
+</body>
+</html>
