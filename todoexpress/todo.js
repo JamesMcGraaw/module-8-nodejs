@@ -55,6 +55,17 @@ app.put('/deletetask/:id', (req, res) => {
     res.redirect('/')
 })
 
+// See all completed items
+app.get('/completed', (req, res) => {
+    let completedTasks = []
+    tasks.tasks.forEach((task) => {
+        if (task.status === 'Complete') {
+            completedTasks.push(task)
+        }
+    })
+    res.json(completedTasks)
+})
+
 // Make app run
 app.listen(port, () => {
     console.log(`App started and listening on port ${port}`);
