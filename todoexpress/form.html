@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Node Routing from Form Example</title>
+
+  <meta name="description" content="An example of handling a form with Node routing">
+  <meta name="author" content="iO Academy">
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="images/favicon.png" sizes="192x192">
+  <link rel="shortcut icon" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <script defer src="js/index.js"></script>
+</head>
+
+<body>
+
+<h1>Node and Form</h1>
+
+<form action="http://localhost:3000/addtask" method="post">
+  <div>
+    <label for="name">What ya need to do? </label>
+    <input type="text" name="task" id="task" required>
+  </div>
+  <input type="hidden" name="status" id="status" value="Incomplete">
+  <div>
+    <input type="submit" value="Add task">
+  </div>
+</form>
+
+</body>
+</html>
