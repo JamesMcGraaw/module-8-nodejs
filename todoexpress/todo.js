@@ -20,17 +20,32 @@ app.get('/', (req, res) => {
     res.json(tasks);
 });
 
+// See individual task
+app.get('/seetask/:id', (req, res) => {
+    let position = tasks.tasks.findIndex(task => task.id == req.params.id)
+    res.json(tasks.tasks[position])
+})
+
+// See all completed items
+app.get('/completed', (req, res) => {
+    let completedTasks = []
+    tasks.tasks.forEach((task) => {
+        if (task.status === 'Complete') {
+            completedTasks.push(task)
+        }
+    })
+    if (completedTasks.length != 0){
+        res.json(completedTasks)
+    } else {
+        res.send('No tasks completed.')
+    }
+})
+
 // Add new task
 // Go to http://localhost:1234/m8-nodejs/todoexpress/form.html
 app.post('/addtask', (req, res) => {
     tasks.tasks.push({id : tasks.tasks.length + 1, task : req.body.task, status : req.body.status})
     res.redirect('/');
-})
-
-// See individual task
-app.get('/seetask/:id', (req, res) => {
-    let position = tasks.tasks.findIndex(task => task.id == req.params.id)
-    res.json(tasks.tasks[position])
 })
 
 // Mark task as done
@@ -53,17 +68,6 @@ app.put('/deletetask/:id', (req, res) => {
     let position = tasks.tasks.findIndex(task => task.id == req.params.id)
     tasks.tasks.splice(position, 1)
     res.redirect('/')
-})
-
-// See all completed items
-app.get('/completed', (req, res) => {
-    let completedTasks = []
-    tasks.tasks.forEach((task) => {
-        if (task.status === 'Complete') {
-            completedTasks.push(task)
-        }
-    })
-    res.json(completedTasks)
 })
 
 // Make app run
