@@ -1,0 +1,32 @@
+<div class="main-section py-3">
+    <div class="main-content row justify-content-center">
+        <div class="col-2">
+            <h2>Categories</h2>
+            {{#each categories}}
+                <div class="form-check">
+                    <input class="form-check-input bg-dark text-dark border-secondary" type="checkbox" id="{{category}}" name="{{category}}" value="{{category}}" checked>
+                    <label class="form-check-label" for="{{category}}">{{category}}</label>
+                </div>
+            {{/each}}
+            <br>
+            <h2>Characters</h2>
+            {{#each characters}}
+                <div class="form-check">
+                    <input class="form-check-input bg-dark text-dark border-secondary" type="checkbox" id="{{character}}" name="{{character}}" value="{{character}}" checked>
+                    <label class="form-check-label" for="{{character}}">{{character}}</label>
+                </div>
+            {{/each}}
+        </div>
+        <div class="col-10 container row">
+            {{#each items}}
+                <div class="{{title}}Class col-3">
+                    <div>
+                        <img src="{{image}}" alt="Image for {{title}}" class="img-fluid">
+                    </div>
+                    <h2 class="fs-4 text">{{title}}</h2>
+                    <p class="fs-2 text">${{price}}.00</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
