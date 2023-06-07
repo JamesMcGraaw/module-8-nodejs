@@ -11,4 +11,10 @@ const getPigs = async () => {
     return await pigsCollection.find({}).toArray();
 }
 
+const getPig = async (pigName) => {
+    console.log('Repository: getPig');
+    return await pigsCollection.findOne({"name" : pigName });
+}
+
 module.exports.getPigs = getPigs;
+module.exports.getPig = getPig;
