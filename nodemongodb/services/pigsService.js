@@ -20,5 +20,29 @@ const getPig = async (pigName) => {
     }
 }
 
+const addPig = async (newPig) => {
+    console.log('Service: addPig');
+    // Could validate newPig details here
+    return await pigsRepository.addPig(newPig);
+}
+
+const deletePig = async (pigName) => {
+    console.log('Service: deletePig');
+    return await pigsRepository.deletePig(pigName);
+}
+
+const updatePig = async (pigName, updatedField) => {
+    console.log('Service: updatePig');
+    const objectKeysArray = Object.keys(updatedField)
+
+    if (objectKeysArray.includes('weight')) {
+        updatedField.weight = Number(updatedField.weight);
+    }
+    return await pigsRepository.updatePig(pigName, updatedField);
+}
+
 module.exports.getPigs = getPigs;
 module.exports.getPig = getPig;
+module.exports.addPig = addPig;
+module.exports.deletePig = deletePig;
+module.exports.updatePig = updatePig;
