@@ -28,7 +28,13 @@ const getProduct = async (productID) => {
     return await productsCollection.findOne({_id: new ObjectId(productID)})
 }
 
+const addProduct = async (newProduct) => {
+    console.log('Repository: addProduct')
+    return await productsCollection.insertOne(newProduct)
+}
+
 module.exports.getProducts = getProducts;
 module.exports.getCategories = getCategories;
 module.exports.getCharacters = getCharacters;
 module.exports.getProduct = getProduct;
+module.exports.addProduct = addProduct;

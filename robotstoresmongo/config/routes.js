@@ -4,8 +4,7 @@ const routes = (app) => {
     app.get('/categories', productsController.getCategories)
     app.get('/characters', productsController.getCharacters)
     app.get('/products/:id', productsController.getProduct);
-
-    // app.post('/products', productsController.addProduct) // Stretch
+    app.post('/products', productsController.addProduct)
 }
 
 module.exports = routes;

@@ -57,7 +57,27 @@ const getProduct = (req, res) => {
     })
 }
 
+const addProduct = (req, res) => {
+    console.log('Controller: addProduct')
+    const newProduct = req.body;
+
+    productsService.addProduct(newProduct).then((result) => {
+        const message = {"message": "Successfully created product."}
+        res.send(message);
+    })
+    .catch((error) => {
+        let status = 500;
+        const message = {"message": error.message, "data": []}
+
+        if (error.message.startsWith("Invalid")) {
+            status = 400;
+    }
+        res.status(status).send(message);
+    })
+}
+
 module.exports.getProducts = getProducts;
 module.exports.getCategories = getCategories;
 module.exports.getCharacters = getCharacters;
 module.exports.getProduct = getProduct;
+module.exports.addProduct = addProduct;

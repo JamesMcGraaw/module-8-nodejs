@@ -74,7 +74,18 @@ const getProduct = async (productID) => {
     }
 }
 
+const addProduct = async (newProduct) => {
+    console.log('Service: addProduct');
+    try {
+        return await productsRepository.addProduct(newProduct)
+    } catch {
+        const message = "Invalid product data"
+        throw new Error(message)
+    }
+}
+
 module.exports.getProducts = getProducts;
 module.exports.getCategories = getCategories;
 module.exports.getCharacters = getCharacters;
 module.exports.getProduct = getProduct;
+module.exports.addProduct = addProduct;
