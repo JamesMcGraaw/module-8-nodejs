@@ -8,7 +8,8 @@ const getProducts = (req, res) => {
 
     productsService.getProducts(categories, characters)
         .then((allProducts) => {
-            res.send(allProducts)
+            const message = {"message": "Successfully found products.", "data": allProducts}
+            res.send(message)
         })
         .catch((error) => {
             let status = 500
@@ -25,14 +26,16 @@ const getCategories = (req, res) => {
     console.log('Controller: getCategories');
     productsService.getCategories(req, res)
         .then((allCategories) => {
-            res.json(allCategories)
+            const message = {"message": "Successfully found categories.", "data": allCategories}
+            res.send(message)
     })
 }
 
 const getCharacters = (req, res) => {
     console.log('Controller: getCharacters');
     productsService.getCharacters(req, res).then((allCharacters) => {
-        res.json(allCharacters)
+        const message = {"message": "Successfully found characters.", "data": allCharacters}
+        res.send(message)
     })
 }
 
@@ -40,7 +43,17 @@ const getProduct = (req, res) => {
     console.log('Controller: getProduct');
     const productID = req.params.id
     productsService.getProduct(productID).then((product) => {
-        res.json(product)
+        const message = {"message": "Successfully found product.", "data": product}
+        res.send(message)
+    })
+    .catch((error) => {
+        let status = 500;
+        const message = {"message": error.message, "data": []}
+
+        if (error.message.startsWith("Unknown")) {
+            status = 400;
+        }
+        res.status(status).send(message);
     })
 }
 

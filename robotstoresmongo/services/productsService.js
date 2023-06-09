@@ -4,10 +4,7 @@ const getProducts = async (categories, characters) => {
     console.log('Service: getProducts');
 
     let categoriesData = await this.getCategories()
-    categoriesData = categoriesData.data
-
     let charactersData = await this.getCharacters()
-    charactersData = charactersData.data
 
     let categoriesArray = []
     let charactersArray = []
@@ -24,15 +21,6 @@ const getProducts = async (categories, characters) => {
         charactersArray = charactersData
     }
 
-    let checkMatch = (databaseData, passedInData) => {
-        const databaseValues = Object.values(databaseData);
-        const passedInValues = Object.values(passedInData);
-
-        return passedInValues.every((element) => {
-            return databaseValues.includes(element)
-        })
-    }
-
     if (!checkMatch(categoriesData, categoriesArray)) {
         const message = "Unknown category"
         throw new Error(message)
@@ -42,13 +30,18 @@ const getProducts = async (categories, characters) => {
     }
 
     try {
-        const query = await productsRepository.getProducts(categoriesArray, charactersArray);
-        return {"message": "Successfully found products.", "data": query}
+        return await productsRepository.getProducts(categoriesArray, charactersArray);
     } catch {
         const message = "Unexpected error"
         throw new Error(message)
     }
 };
+
+const checkMatch = (databaseData, passedInData) => {
+    return passedInData.every((element) => {
+        return databaseData.includes(element)
+    })
+}
 
 const getCategories = async () => {
     console.log('service: getCategories')
@@ -57,7 +50,7 @@ const getCategories = async () => {
         const message = "Unexpected error"
         throw new Error(message)
     }
-    return {"message": "Successfully found categories.", "data": query}
+    return query
 }
 
 const getCharacters = async () => {
@@ -67,16 +60,17 @@ const getCharacters = async () => {
         const message = "Unexpected error"
         throw new Error(message)
     }
-    return {"message": "Successfully found characters.", "data": query}
+    return query
 }
 
 const getProduct = async (productID) => {
     console.log('Service: getProduct');
-    const query = await productsRepository.getProduct(productID);
-    if (query !== null) {
-        return {"message": "Successfully found product.", "data": query}
-    } else {
-        return {"message": "Unknown product ID", "data": []}
+
+    try {
+        return await productsRepository.getProduct(productID);
+    } catch {
+        const message = "Unknown product ID"
+        throw new Error(message)
     }
 }
 
