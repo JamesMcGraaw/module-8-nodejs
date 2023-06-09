@@ -1,37 +1,34 @@
 const dbService = require('../services/dbService');
+const {ObjectId} = require('mongodb');
 
 let productsCollection = null;
 
 dbService.connectToDB()
     .then((db) => productsCollection = db.collection('products'));
 
-const getProducts = async () => {
+const getProducts = async (categoriesArray, charactersArray) => {
     console.log('Repository: getProducts');
-    return await productsCollection.find({}, {projection:{id: 1, title: 1, price: 1, image: 1, category: 1, character: 1}}).toArray();
+
+    return await productsCollection.find(
+        {$or: [{category: {$in: categoriesArray}}, {character: charactersArray}]},
+        {projection: {id: 1, title: 1, price: 1, image: 1, category: 1, character: 1}}).toArray();
+
 }
 
-// const getPig = async (pigName) => {
-//     console.log('Repository: getPig');
-//     return await pigsCollection.findOne({"name" : pigName });
-// }
-//
-// const addPig = async (newPig) => {
-//     console.log('Repository: addPig');
-//     return await pigsCollection.insertOne(newPig);
-// }
-//
-// const deletePig = async (pigName) => {
-//     console.log('Repository: deletePig');
-//     return await pigsCollection.deleteOne({"name" : pigName});
-// }
-//
-// const updatePig = async (pigName, updatedField) => {
-//     console.log('Repository: updatePig');
-//     return await pigsCollection.updateOne({"name" : pigName}, {$set : updatedField});
-// }
+const getCategories = async () => {
+    return await productsCollection.distinct('category');
+}
+
+const getCharacters = async () => {
+    return await productsCollection.distinct('character');
+}
+
+const getProduct = async (productID) => {
+    console.log('Repository: getProduct')
+    return await productsCollection.findOne({_id: new ObjectId(productID)})
+}
 
 module.exports.getProducts = getProducts;
-// module.exports.getPig = getPig;
-// module.exports.addPig = addPig;
-// module.exports.deletePig = deletePig;
-// module.exports.updatePig = updatePig;
+module.exports.getCategories = getCategories;
+module.exports.getCharacters = getCharacters;
+module.exports.getProduct = getProduct;

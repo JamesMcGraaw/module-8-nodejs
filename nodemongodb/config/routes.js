@@ -6,6 +6,14 @@ const routes = (app) => {
     app.delete('/pigs/:pigName', pigsController.deletePig);
     app.put('/pigs/:pigName', pigsController.updatePig)
 
+    // Example of middleware in routes
+    app.get('/midware1', (req, res, next) => {
+        console.log('Hello from Routes Middleware')
+        console.log('The PigsController will be executed next.')
+        next();
+    }, (req, res) => {
+        pigsController.getPig(req, res);
+    })
 }
 
 module.exports = routes;

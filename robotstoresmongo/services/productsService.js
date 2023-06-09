@@ -1,45 +1,86 @@
 const productsRepository = require('../repositories/productsRepository');
 
-const getProducts = async () => {
+const getProducts = async (categories, characters) => {
     console.log('Service: getProducts');
-    const query = await productsRepository.getProducts();
 
-    return {"message": "Successfully found products.", "data": query}
+    let categoriesData = await this.getCategories()
+    categoriesData = categoriesData.data
+
+    let charactersData = await this.getCharacters()
+    charactersData = charactersData.data
+
+    let categoriesArray = []
+    let charactersArray = []
+
+    if (categories) {
+        categoriesArray = categories.split(',')
+    } else {
+        categoriesArray = categoriesData
+    }
+
+    if (characters) {
+        charactersArray = characters.split(',')
+    } else {
+        charactersArray = charactersData
+    }
+
+    let checkMatch = (databaseData, passedInData) => {
+        const databaseValues = Object.values(databaseData);
+        const passedInValues = Object.values(passedInData);
+
+        return passedInValues.every((element) => {
+            return databaseValues.includes(element)
+        })
+    }
+
+    if (!checkMatch(categoriesData, categoriesArray)) {
+        const message = "Unknown category"
+        throw new Error(message)
+    } else if (!checkMatch(charactersData, charactersArray)) {
+        const message = "Unknown character"
+        throw new Error(message)
+    }
+
+    try {
+        const query = await productsRepository.getProducts(categoriesArray, charactersArray);
+        return {"message": "Successfully found products.", "data": query}
+    } catch {
+        const message = "Unexpected error"
+        throw new Error(message)
+    }
 };
-//
-// const getPig = async (pigName) => {
-//     console.log('Service: getPig');
-//     const query = await pigsRepository.getPig(pigName);
-//     if (query !== null) {
-//         return query
-//     } else {
-//         return {"message" : "No pig found"}
-//     }
-// }
-//
-// const addPig = async (newPig) => {
-//     console.log('Service: addPig');
-//     // Could validate newPig details here
-//     return await pigsRepository.addPig(newPig);
-// }
-//
-// const deletePig = async (pigName) => {
-//     console.log('Service: deletePig');
-//     return await pigsRepository.deletePig(pigName);
-// }
-//
-// const updatePig = async (pigName, updatedField) => {
-//     console.log('Service: updatePig');
-//     const objectKeysArray = Object.keys(updatedField)
-//
-//     if (objectKeysArray.includes('weight')) {
-//         updatedField.weight = Number(updatedField.weight);
-//     }
-//     return await pigsRepository.updatePig(pigName, updatedField);
-// }
+
+const getCategories = async () => {
+    console.log('service: getCategories')
+    const query = await productsRepository.getCategories()
+    if (query === null) {
+        const message = "Unexpected error"
+        throw new Error(message)
+    }
+    return {"message": "Successfully found categories.", "data": query}
+}
+
+const getCharacters = async () => {
+    console.log('service: getCharacters')
+    const query = await productsRepository.getCharacters()
+    if (query.length === 0) {
+        const message = "Unexpected error"
+        throw new Error(message)
+    }
+    return {"message": "Successfully found characters.", "data": query}
+}
+
+const getProduct = async (productID) => {
+    console.log('Service: getProduct');
+    const query = await productsRepository.getProduct(productID);
+    if (query !== null) {
+        return {"message": "Successfully found product.", "data": query}
+    } else {
+        return {"message": "Unknown product ID", "data": []}
+    }
+}
 
 module.exports.getProducts = getProducts;
-// module.exports.getPig = getPig;
-// module.exports.addPig = addPig;
-// module.exports.deletePig = deletePig;
-// module.exports.updatePig = updatePig;
+module.exports.getCategories = getCategories;
+module.exports.getCharacters = getCharacters;
+module.exports.getProduct = getProduct;
